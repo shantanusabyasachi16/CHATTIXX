@@ -37,7 +37,7 @@ const authenticateJwt = (req, res, next) => {
   };   
 
 
-mongoose.connect('mongodb+srv://shantanuswain23:5bESwo2yjfVcjB4g@cluster1.9yssseu.mongodb.net/',);
+mongoose.connect('mongodb+srv://shantanuswain23:UYDngt5ai1AYq3N0@cluster0.glirbhs.mongodb.net/',);
 
  
 app.post('/users/signup',async (req, res) => {

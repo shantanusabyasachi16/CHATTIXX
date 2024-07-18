@@ -14,27 +14,31 @@ import { Label } from "@/components/ui/label";
 export default function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3000/users/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Error signing up');
+    fetch("http://localhost:3000/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        alert("Sign up successful!");
+      } else {
+        throw new Error(data.message || "Sign up failed");
       }
-      setMessage(data.message);
-    } catch (error) {
-      setMessage(error.message);
-    }
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
   };
 
   return (
@@ -74,7 +78,6 @@ export default function Signup() {
               <Button type="submit" className="w-full">Sign Up</Button>
             </CardFooter>
           </form>
-          {message && <p className="text-center mt-4">{message}</p>}
         </CardContent>
       </Card>
     </div>
